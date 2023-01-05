@@ -26,6 +26,9 @@ public class UsuarioSkillDto {
    
     
     
+    public UsuarioSkillDto() {
+    }
+
     public UsuarioSkillDto(Long id, Usuario userId, Skill skillId, int knowledgeLevel, Date createdAt, Date updateAt) {
         this.id = id;
         this.userId = userId;

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import serratec.neki.testePratico.model.Usuario;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import serratec.neki.testePratico.service.UsuarioService;
 import serratec.neki.testePratico.shared.dto.UsuarioDto;
 import serratec.neki.testePratico.view.model.UsuarioRequest;
@@ -31,6 +33,14 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
+    @ApiOperation(value = "Lista todos usuários", notes = "Lista todos os usuários")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Lista usuários"),
+        @ApiResponse(code = 401, message = "Erro de autenticação"),
+        @ApiResponse(code = 403, message = "Não há permissão para acessar o recurso"),
+        @ApiResponse(code = 404, message = "Recurso não encontrado"),
+        @ApiResponse(code = 505, message = "Exceção interna da aplicação"),
+    })
     public ResponseEntity<List<UsuarioResponse>> obterTodos(){
         List<UsuarioDto> usuario = usuarioService.obterTodos();
 
@@ -44,6 +54,14 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation(value = "Lista usuário por Id", notes = "Lista usuário")
+    @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Lista usuário"),
+      @ApiResponse(code = 401, message = "Erro de autenticação"),
+      @ApiResponse(code = 403, message = "Não há permissão para acessar o recurso"),
+      @ApiResponse(code = 404, message = "Recurso não encontrado"),
+      @ApiResponse(code = 505, message = "Exceção interna da aplicação"),
+  })
     public ResponseEntity<Optional<UsuarioResponse>> obterPorId(@PathVariable Long id){
         Optional<UsuarioDto> dto = usuarioService.obterPorId(id);
         UsuarioResponse usuario = new ModelMapper().map(dto.get(), UsuarioResponse.class);
@@ -52,6 +70,14 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Cadastra usuário", notes = "Cadastra usuário")
+    @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Cadastra usuário"),
+      @ApiResponse(code = 401, message = "Erro de autenticação"),
+      @ApiResponse(code = 403, message = "Não há permissão para acessar o recurso"),
+      @ApiResponse(code = 404, message = "Recurso não encontrado"),
+      @ApiResponse(code = 505, message = "Exceção interna da aplicação"),
+  })
     public ResponseEntity<UsuarioResponse> adicionar(@RequestBody UsuarioRequest usuarioReq){
        ModelMapper mapper = new ModelMapper();
 
@@ -64,6 +90,14 @@ public class UsuarioController {
 
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Altera dados do usuário", notes = "Altera dados do usuário")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Altera usuário"),
+        @ApiResponse(code = 401, message = "Erro de autenticação"),
+        @ApiResponse(code = 403, message = "Não há permissão para acessar o recurso"),
+        @ApiResponse(code = 404, message = "Recurso não encontrado"),
+        @ApiResponse(code = 505, message = "Exceção interna da aplicação"),
+    })
     public ResponseEntity<UsuarioResponse> atualizar(@RequestBody UsuarioRequest usuarioReq, @PathVariable Long id){
        
         ModelMapper mapper = new ModelMapper();
@@ -78,6 +112,14 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deleta usuário", notes = "Deleta usuário")
+    @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Deleta usuário"),
+      @ApiResponse(code = 401, message = "Erro de autenticação"),
+      @ApiResponse(code = 403, message = "Não há permissão para acessar o recurso"),
+      @ApiResponse(code = 404, message = "Recurso não encontrado"),
+      @ApiResponse(code = 505, message = "Exceção interna da aplicação"),
+  })
     public ResponseEntity<?> deletar(@PathVariable Long id){
         usuarioService.deletar(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

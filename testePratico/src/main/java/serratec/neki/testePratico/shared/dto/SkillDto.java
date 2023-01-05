@@ -3,8 +3,7 @@ package serratec.neki.testePratico.shared.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+import serratec.neki.testePratico.model.Skill;
 import serratec.neki.testePratico.model.Usuario;
 
 public class SkillDto {
@@ -21,7 +20,7 @@ public class SkillDto {
     private String imagem;
     
     private List<Usuario> usuario = new ArrayList<Usuario>();
-     
+
     
     public Long getId() {
         return id;

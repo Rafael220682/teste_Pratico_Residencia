@@ -24,6 +24,21 @@ public class UsuarioSkillRequest {
    
     
    
+    public UsuarioSkillRequest() {
+    }
+
+    
+
+    public UsuarioSkillRequest(Usuario userId, Skill skillId, int knowledgeLevel, Date createdAt, Date updateAt) {
+        this.userId = userId;
+        this.skillId = skillId;
+        this.knowledgeLevel = knowledgeLevel;
+        this.createdAt = createdAt;
+        this.updateAt = updateAt;
+    }
+
+
+
     public Usuario getUserId() {
         return userId;
     }

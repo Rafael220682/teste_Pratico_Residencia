@@ -6,17 +6,22 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import serratec.neki.testePratico.Repository.SkillRepository;
 import serratec.neki.testePratico.exception.ResourceNotFoundException;
 import serratec.neki.testePratico.model.Skill;
-
 import serratec.neki.testePratico.shared.dto.SkillDto;
 
 
 @Service
 public class SkillService {
+
+    @Value("${app.caminhoImagens}")
+    private String caminhoImagens;
+
 
     @Autowired
     private SkillRepository skillRepository;
@@ -42,13 +47,15 @@ public class SkillService {
     }
 
 
-    public SkillDto adicionar(SkillDto skillDto){
+    public SkillDto adicionar(SkillDto skillDto, MultipartFile file){
         skillDto.setId(null);
 
         ModelMapper mapper = new ModelMapper();
 
         Skill skill = mapper.map(skillDto, Skill.class);
-        skill = skillRepository.save(skill);
+        skill = skillRepository.saveAndFlush(skill);
+        skill = skillRepository.findById(skill.getId()).get();
+
         skillDto.setId(skill.getId());
 
         return skillDto;
