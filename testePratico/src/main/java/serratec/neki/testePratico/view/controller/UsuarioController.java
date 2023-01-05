@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
 import serratec.neki.testePratico.service.UsuarioService;
 import serratec.neki.testePratico.shared.dto.UsuarioDto;
+
 import serratec.neki.testePratico.view.model.UsuarioRequest;
 import serratec.neki.testePratico.view.model.UsuarioResponse;
 
@@ -32,6 +34,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+   
     @GetMapping
     @ApiOperation(value = "Lista todos usuários", notes = "Lista todos os usuários")
     @ApiResponses(value = {
@@ -68,6 +71,7 @@ public class UsuarioController {
 
         return new ResponseEntity<>(Optional.of(usuario), HttpStatus.OK);
     }
+    
 
     @PostMapping
     @ApiOperation(value = "Cadastra usuário", notes = "Cadastra usuário")
@@ -124,6 +128,19 @@ public class UsuarioController {
         usuarioService.deletar(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    
+    // @PostMapping("/login")
+    // public ResponseEntity<UsuarioResponse> adicionar(@RequestBody UsuarioRequest usuarioReq){
+    //     ModelMapper mapper = new ModelMapper();
+ 
+    //     UsuarioDto dto = mapper.map(usuarioReq, UsuarioDto.class);
+              
+    //     dto = usuarioService.adicionar(dto);
+ 
+    //     return new ResponseEntity<>(mapper.map(dto, UsuarioResponse.class), HttpStatus.CREATED);
+    //  }
+
+  
 
 
 }

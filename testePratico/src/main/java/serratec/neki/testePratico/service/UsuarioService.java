@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import serratec.neki.testePratico.Repository.UsuarioRepository;
 import serratec.neki.testePratico.exception.ResourceNotFoundException;
 import serratec.neki.testePratico.model.Usuario;
@@ -20,7 +19,7 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-
+   
     public List<UsuarioDto> obterTodos(){
         List<Usuario> usuarios = usuarioRepository.findAll();
 
@@ -41,13 +40,15 @@ public class UsuarioService {
         return Optional.of(dto);
     }
 
+      
 
     public UsuarioDto adicionar(UsuarioDto usuarioDto){
         usuarioDto.setId(null);
-
+       
         ModelMapper mapper = new ModelMapper();
 
         Usuario usuario = mapper.map(usuarioDto, Usuario.class);
+
         usuario = usuarioRepository.save(usuario);
         usuarioDto.setId(usuario.getId());
 
