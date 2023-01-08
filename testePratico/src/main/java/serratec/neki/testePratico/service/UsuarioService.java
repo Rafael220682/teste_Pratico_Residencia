@@ -1,12 +1,15 @@
 package serratec.neki.testePratico.service;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import serratec.neki.testePratico.Repository.UsuarioRepository;
 import serratec.neki.testePratico.exception.ResourceNotFoundException;
 import serratec.neki.testePratico.model.Usuario;
@@ -18,6 +21,9 @@ public class UsuarioService {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+	private PasswordEncoder passwordEncoder;
 
    
     public List<UsuarioDto> obterTodos(){
@@ -40,18 +46,38 @@ public class UsuarioService {
         return Optional.of(dto);
     }
 
-      
+    public Usuario obterUsuarioPorId(Long id) {
+		Optional<Usuario> optUsuario = usuarioRepository.findById(id);
+
+		if (optUsuario.isEmpty()) {
+			throw new ResourceNotFoundException("Não foi possivel encontrar a pessoa com id " + id);
+		}
+		return optUsuario.get();
+	}
+
+    public Optional<Usuario> obterPorLogin(String login){
+        return usuarioRepository.findByLogin(login);
+}
 
     public UsuarioDto adicionar(UsuarioDto usuarioDto){
         usuarioDto.setId(null);
+
+        if(obterPorLogin(usuarioDto.getLogin()).isPresent()){
+			//exceptions informando que o usuário existe
+			throw new InputMismatchException("Já existe um usuário com este nome: " + usuarioDto.getLogin());
+		}
+		//codificando a senha para não ficar público, gerando um hash
+		String senha = passwordEncoder.encode(usuarioDto.getPassword());
+        usuarioDto.setPassword(senha);
        
         ModelMapper mapper = new ModelMapper();
-
         Usuario usuario = mapper.map(usuarioDto, Usuario.class);
 
         usuario = usuarioRepository.save(usuario);
-        usuarioDto.setId(usuario.getId());
 
+        usuarioDto.setId(usuario.getId());
+        
+	
         return usuarioDto;
     }
 

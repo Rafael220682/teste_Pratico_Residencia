@@ -7,6 +7,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import serratec.neki.testePratico.model.Skill;
+import serratec.neki.testePratico.model.Usuario;
 
 public class UsuarioDto {
     
@@ -36,6 +37,8 @@ public class UsuarioDto {
     //     this.password = password;
     //     this.lastLoginDate = lastLoginDate;
     // }
+
+   
 
     public Long getId() {
         return id;

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import serratec.neki.testePratico.exception.ResourceBadRequestException;
+import serratec.neki.testePratico.model.UsuarioSkill;
 import serratec.neki.testePratico.service.UsuarioSkillService;
 import serratec.neki.testePratico.shared.dto.UsuarioSkillDto;
 import serratec.neki.testePratico.view.model.UsuarioSkillRequest;
@@ -128,5 +130,5 @@ public class UsuarioSkillController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    
+
 }

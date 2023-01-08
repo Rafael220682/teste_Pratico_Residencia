@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import serratec.neki.testePratico.Repository.UsuarioSkillRepository;
+import serratec.neki.testePratico.exception.ResourceBadRequestException;
 import serratec.neki.testePratico.exception.ResourceNotFoundException;
 import serratec.neki.testePratico.model.UsuarioSkill;
 import serratec.neki.testePratico.shared.dto.UsuarioSkillDto;
@@ -42,6 +43,12 @@ public class UsuarioSkillService {
 
     public UsuarioSkillDto adicionar(UsuarioSkillDto usuarioSkillDto){
         usuarioSkillDto.setId(null);
+        
+        if (usuarioSkillDto.getKnowledgeLevel() < 0 ) {
+            throw new ResourceBadRequestException("O nível de conhecimento deve ser entre 0 e 10");
+		} else if(usuarioSkillDto.getKnowledgeLevel() > 10){
+            throw new ResourceBadRequestException("O nível de conhecimento deve ser entre 0 e 10");
+        }
 
         ModelMapper mapper = new ModelMapper();
 
@@ -72,4 +79,10 @@ public class UsuarioSkillService {
         usuarioSkillRepository.deleteById(id);
 
     }
+
+    
+    private  void validar (UsuarioSkill usuarioSkill) { 
+		
+    
+}
 }

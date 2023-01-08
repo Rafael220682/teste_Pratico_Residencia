@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-
+import serratec.neki.testePratico.service.LoginService;
 import serratec.neki.testePratico.service.UsuarioService;
 import serratec.neki.testePratico.shared.dto.UsuarioDto;
-
+import serratec.neki.testePratico.view.model.LoginRequest;
+import serratec.neki.testePratico.view.model.LoginResponse;
 import serratec.neki.testePratico.view.model.UsuarioRequest;
 import serratec.neki.testePratico.view.model.UsuarioResponse;
 
@@ -33,6 +36,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+
+    @Autowired
+    private LoginService loginService;
 
    
     @GetMapping
@@ -45,6 +51,7 @@ public class UsuarioController {
         @ApiResponse(code = 505, message = "Exceção interna da aplicação"),
     })
     public ResponseEntity<List<UsuarioResponse>> obterTodos(){
+               
         List<UsuarioDto> usuario = usuarioService.obterTodos();
 
         ModelMapper mapper = new ModelMapper();
@@ -52,6 +59,7 @@ public class UsuarioController {
         List<UsuarioResponse> resposta = usuario.stream()
             .map(usuarioDto -> mapper.map(usuarioDto, UsuarioResponse.class))
             .collect(Collectors.toList());
+       
 
             return new ResponseEntity<>(resposta, HttpStatus.OK);
     }
@@ -128,6 +136,12 @@ public class UsuarioController {
         usuarioService.deletar(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest request){
+      return loginService.logar(request.getLogin(), request.getPassword());
+     }
+  
     
     // @PostMapping("/login")
     // public ResponseEntity<UsuarioResponse> adicionar(@RequestBody UsuarioRequest usuarioReq){
