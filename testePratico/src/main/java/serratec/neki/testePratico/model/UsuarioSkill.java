@@ -31,7 +31,7 @@ public class UsuarioSkill {
     private Usuario userId;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "skillId")
     private Skill skillId;
 
